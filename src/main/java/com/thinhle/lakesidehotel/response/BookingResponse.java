@@ -4,9 +4,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookingResponse {
 
     @Id
@@ -36,4 +42,11 @@ public class BookingResponse {
 
     @Column(name = "confirmation_Code")
     private String bookingConfirmationCode;
+
+    public BookingResponse(Long bookingId, LocalDate check_In_Date, LocalDate check_Out_Date, String bookingConfirmationCode) {
+        this.bookingId = bookingId;
+        this.check_In_Date = check_In_Date;
+        this.check_Out_Date = check_Out_Date;
+        this.bookingConfirmationCode = bookingConfirmationCode;
+    }
 }

@@ -3,7 +3,7 @@ package com.thinhle.lakesidehotel.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
 import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -22,12 +22,8 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-
     private String roomType;
-
     private BigDecimal roomPrice;
-
     private boolean isBooked = false;
 
     @Lob
@@ -37,7 +33,8 @@ public class Room {
     private List<BookedRoom> bookings;
 
     public Room(){
-            this.bookings = new ArrayList<BookedRoom>();
+
+        this.bookings = new ArrayList<BookedRoom>();
     }
 
     public void addBooking(BookedRoom booking){

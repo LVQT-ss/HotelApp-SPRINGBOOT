@@ -14,19 +14,18 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class BookedRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingId;
 
-    @Column(name = "check_In")
+    @Column(name = "check_in")
     private LocalDate check_In_Date;
 
-    @Column(name = "check_Out")
+    @Column(name = "check_out")
     private LocalDate check_Out_Date;
 
-    @Column(name = "Guest_FullName")
+    @Column(name = "guest_FullName")
     private String guestFullname;
 
     @Column(name = "guest_Email")
@@ -46,7 +45,7 @@ public class BookedRoom {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-
+    @JoinColumn(name = "room_id")
     private Room room;
 
     public void calculateTotalNumberOfGuest() {
@@ -54,15 +53,13 @@ public class BookedRoom {
     }
 
 
-    public void setNumOfChildren(int numOfChildren) {
-        NumOfChildren = numOfChildren;
+    public void setNumOfAdults(int numOfAdults) {
+        NumOfAdults = numOfAdults;
         calculateTotalNumberOfGuest();
     }
 
-
-
-    public void setNumOfAdults(int numOfAdults) {
-        NumOfAdults = numOfAdults;
+    public void setNumOfChildren(int numOfChildren) {
+        NumOfChildren = numOfChildren;
         calculateTotalNumberOfGuest();
     }
 
