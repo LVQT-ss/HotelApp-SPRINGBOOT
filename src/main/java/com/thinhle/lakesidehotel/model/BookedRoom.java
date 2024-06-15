@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class BookedRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,7 @@ public class BookedRoom {
     @Column(name = "guest_Email")
     private String guestEmail;
 
-    @Column(name = "children")
+    @Column(name = "adults")
     private int NumOfAdults;
 
     @Column(name = "children")
@@ -45,7 +46,7 @@ public class BookedRoom {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "Room_id")
+
     private Room room;
 
     public void calculateTotalNumberOfGuest() {
