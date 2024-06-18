@@ -17,7 +17,6 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -15,13 +15,12 @@ import java.sql.SQLException;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("rooms")
+@RequestMapping("/rooms")
 public class RoomController {
 
     private final IRoomService roomService;
 
-
-@PostMapping("/add/new-room")
+    @PostMapping("/add/new-room")
     public ResponseEntity<RoomResponse> addNewRoom(
             @RequestParam("photo") MultipartFile photo,
             @RequestParam("roomType") String roomType,
