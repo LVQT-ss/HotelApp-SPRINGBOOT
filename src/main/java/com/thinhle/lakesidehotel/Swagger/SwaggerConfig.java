@@ -18,22 +18,10 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.thinhle.lakesidehotel"))
-                .paths(PathSelectors.regex("/api.*"))
-                .build()
-                .apiInfo(apiInfoMetaData());
-    }
-
-    private ApiInfo apiInfoMetaData() {
-        return new ApiInfoBuilder()
-                .title("HOTEL - TAILWIND + SPRING ")
-                .description("API hotel")
-                .contact(new Contact("Dev-Team", "https://www.dev-team.com/", "dev-team@gmail.com"))
-                .license("Apache 2.0")
-                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
-                .version("1.0.0")
+                .apis(RequestHandlerSelectors.basePackage("com.thinhle.lakesidehotel.Swagger"))
+                .paths(PathSelectors.any())
                 .build();
     }
 }
