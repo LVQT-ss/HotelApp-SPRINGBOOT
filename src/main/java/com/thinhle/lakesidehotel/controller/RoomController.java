@@ -1,7 +1,9 @@
 package com.thinhle.lakesidehotel.controller;
 
+import com.thinhle.lakesidehotel.exception.PhotoRetrievalException;
 import com.thinhle.lakesidehotel.model.BookedRoom;
 import com.thinhle.lakesidehotel.model.Room;
+import com.thinhle.lakesidehotel.response.BookingResponse;
 import com.thinhle.lakesidehotel.response.RoomResponse;
 import com.thinhle.lakesidehotel.service.BookingService;
 import com.thinhle.lakesidehotel.service.IRoomService;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +62,27 @@ public class RoomController {
     }
 
     private RoomResponse getRoomResponse(Room room) {
-        List<BookedRoom> boookings = getAllBookingsByRoomId(room.getId());
+        List<BookedRoom> bookings = getAllBookingsByRoomId(room.getId());
+        List<BookingResponse> bookingInfo = bookings
+                .stream()
+                .map(booking -> new BookingResponse(booking.getBookingId(),
+                        booking.getCheck_In_Date(),
+                        booking.getCheck_Out_Date(),
+                        booking.getBookingConfirmationCode())).toList();
+        byte[] photoBytes = null;
+        Blob photoBlob = room.getPhoto();
+        if(photoBlob != null) {
+            try{
+                photoBytes = photoBlob.getBytes(1,(int) photoBlob.length());
 
+            }catch (SQLException e){
+                    throw new PhotoRetrievalException("ERROR retrieving photo");
+            }
+        }
+        return new RoomResponse(room.getId(),
+                room.getRoomType(),
+                room.getRoomPrice(),
+                room.isBooked(),photoBytes, bookingInfo);
     }
     private List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
         return bookingService.getAllBookingsByRoomId(roomId);
