@@ -9,10 +9,13 @@ import com.thinhle.lakesidehotel.service.BookingService;
 import com.thinhle.lakesidehotel.service.IRoomService;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Blob;
@@ -46,6 +49,7 @@ public class RoomController {
         return roomService.getAllRoomTypes();
     }
 
+    @GetMapping("/all-rooms")
     public ResponseEntity<List<RoomResponse>> getAllRooms() throws SQLException {
         List<Room> rooms = roomService.getAllRooms();
         List<RoomResponse> roomResponses = new ArrayList<>();
@@ -61,14 +65,35 @@ public class RoomController {
         return ResponseEntity.ok(roomResponses);
     }
 
+    @DeleteMapping("/delete/room/{roomId}")
+    public ResponseEntity<Void> deleteRoom(@PathVariable("roomId") Long roomId){
+        roomService.deleteRoom(roomId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/update/{roomId}")
+    public ResponseEntity<RoomResponse> updateRoom(@PathVariable Long roomId,
+                                                   @RequestParam(required = false) String roomType,
+                                                  @RequestParam(required = false) BigDecimal roomPrice,
+                                                  @RequestParam(required = false) MultipartFile photo
+    ) throws IOException, SQLException {
+        byte[] photoBytes = photo != null && !photo.isEmpty() ? photo.getBytes() :  roomService.getRoomPhotoByRoomId(roomId);
+        Blob photoBlob = photoBytes != null && photoBytes.length > 0 ? new SerialBlob(photoBytes) : null;
+        Room theRoom = roomService.updateRoom(roomId,roomType,roomPrice,photoBytes);
+        theRoom.setPhoto(photoBlob);
+        RoomResponse roomResponse = getRoomResponse(theRoom);
+        return ResponseEntity.ok(roomResponse);
+    }
+
+
     private RoomResponse getRoomResponse(Room room) {
         List<BookedRoom> bookings = getAllBookingsByRoomId(room.getId());
-        List<BookingResponse> bookingInfo = bookings
-                .stream()
-                .map(booking -> new BookingResponse(booking.getBookingId(),
-                        booking.getCheck_In_Date(),
-                        booking.getCheck_Out_Date(),
-                        booking.getBookingConfirmationCode())).toList();
+//        List<BookingResponse> bookingInfo = bookings
+//                .stream()
+//                .map(booking -> new BookingResponse(booking.getBookingId(),
+//                        booking.getCheck_In_Date(),
+//                        booking.getCheck_Out_Date(),
+//                        booking.getBookingConfirmationCode())).toList();
         byte[] photoBytes = null;
         Blob photoBlob = room.getPhoto();
         if(photoBlob != null) {
@@ -82,7 +107,7 @@ public class RoomController {
         return new RoomResponse(room.getId(),
                 room.getRoomType(),
                 room.getRoomPrice(),
-                room.isBooked(),photoBytes, bookingInfo);
+                room.isBooked(),photoBytes);
     }
     private List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
         return bookingService.getAllBookingsByRoomId(roomId);
