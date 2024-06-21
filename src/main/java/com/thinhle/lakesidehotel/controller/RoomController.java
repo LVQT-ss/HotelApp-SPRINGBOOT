@@ -1,6 +1,7 @@
 package com.thinhle.lakesidehotel.controller;
 
 import com.thinhle.lakesidehotel.exception.PhotoRetrievalException;
+import com.thinhle.lakesidehotel.exception.ResourceNotFoundException;
 import com.thinhle.lakesidehotel.model.BookedRoom;
 import com.thinhle.lakesidehotel.model.Room;
 import com.thinhle.lakesidehotel.response.BookingResponse;
@@ -9,6 +10,7 @@ import com.thinhle.lakesidehotel.service.BookingService;
 import com.thinhle.lakesidehotel.service.IRoomService;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @CrossOrigin(origins = "*")
@@ -83,6 +86,15 @@ public class RoomController {
         theRoom.setPhoto(photoBlob);
         RoomResponse roomResponse = getRoomResponse(theRoom);
         return ResponseEntity.ok(roomResponse);
+    }
+    @GetMapping("/room/{roomId}")
+    public ResponseEntity<Optional<RoomResponse>> getRoomById(@PathVariable Long roomId){
+
+        Optional<Room> theRoom = roomService.getRoomById(roomId);
+        return theRoom.map(room -> {
+            RoomResponse roomResponse = getRoomResponse(room);
+            return ResponseEntity.ok(Optional.of(roomResponse));
+        }).orElseThrow(() -> new ResourceNotFoundException("Room not found"));
     }
 
 
