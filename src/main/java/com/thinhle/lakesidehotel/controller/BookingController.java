@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/bookings")
@@ -64,17 +65,17 @@ public class BookingController {
 
     private BookingResponse getBookingResponse(BookedRoom booking) {
         Room theRoom = roomService.getRoomById(booking.getRoom().getId()).get();
-        RoomResponse room = new RoomResponse(
+       RoomResponse room = new RoomResponse(
                 theRoom.getId(),
                 theRoom.getRoomType(),
                 theRoom.getRoomPrice());
 
         return new BookingResponse(
                 booking.getBookingId(), booking.getCheck_In_Date(),
-                booking.getCheck_Out_Date(),booking.getGuestFullname(),booking.getGuestEmail(),
-                booking.getNumOfChildren(),booking.getTotalNumberOfGuest(),
-                booking.getBookingConfirmationCode(),room);
-
+                booking.getCheck_Out_Date(),booking.getGuestFullname(),
+                booking.getGuestEmail(), booking.getNumOfAdults(),
+                booking.getNumOfChildren(), booking.getTotalNumberOfGuest(),
+                booking.getBookingConfirmationCode(), room);
     }
 
 }
