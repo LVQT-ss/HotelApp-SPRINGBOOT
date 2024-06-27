@@ -2,6 +2,7 @@ package com.thinhle.lakesidehotel.service;
 
 
 import com.thinhle.lakesidehotel.exception.InvalidBookingResquestException;
+import com.thinhle.lakesidehotel.exception.ResourceNotFoundException;
 import com.thinhle.lakesidehotel.model.BookedRoom;
 import com.thinhle.lakesidehotel.model.Room;
 import com.thinhle.lakesidehotel.repository.BookingRepository;
@@ -9,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,10 +41,9 @@ public class BookingService implements IBookingService {
             throw new InvalidBookingResquestException("Check-in date must come before check out date");
         }
         Room room = roomService.getRoomById(roomId).get();
-        List<BookedRoom> existingbookings = room.getBookings();
-        boolean roomIsAvailable = roomIsAvailable(bookingRequest,existingbookings);
+        List<BookedRoom> existingBookings = room.getBookings();
+        boolean roomIsAvailable = roomIsAvailable(bookingRequest,existingBookings);
         if(roomIsAvailable) {
-
             room.addBooking(bookingRequest);
             bookingRepository.save(bookingRequest);
         }else {
@@ -77,8 +76,10 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public Optional<BookedRoom> findByBookingConfirmationCode(String confirmationCode) {
-        return bookingRepository.findByBookingConfirmationCode(confirmationCode);
+    public BookedRoom findByBookingConfirmationCode(String confirmationCode) {
+        return bookingRepository.findByBookingConfirmationCode(confirmationCode)
+                .orElseThrow(() -> new ResourceNotFoundException("No booking found with booking code :"+confirmationCode));
+
     }
 
 }

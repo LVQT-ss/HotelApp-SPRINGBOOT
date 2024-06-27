@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
@@ -41,13 +42,14 @@ public class BookingController {
     @GetMapping("/confirmation/{confirmationCode}")
     public ResponseEntity<?> getBookingConfirmationCode(@PathVariable  String confirmationCode) {
             try {
-                BookedRoom booking = bookingService.findByBookingConfirmationCode(confirmationCode);
+               BookedRoom booking = bookingService.findByBookingConfirmationCode(confirmationCode);
                 BookingResponse bookingResponse = getBookingResponse(booking);
                 return ResponseEntity.ok(bookingResponse);
             } catch(ResourceNotFoundException ex){
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
             }
     }
+
     @PostMapping("/room/{roomId}/booking")
     public ResponseEntity<?> saveBooking(@PathVariable  Long roomId,
                                          @RequestBody BookedRoom bookingRequest){
@@ -58,6 +60,7 @@ public class BookingController {
                     return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
     @DeleteMapping("/booking/{bookingId}/delete")
     public void cancelBooking(@PathVariable  Long bookingId){
         bookingService.cancelBooking(bookingId);
@@ -65,11 +68,10 @@ public class BookingController {
 
     private BookingResponse getBookingResponse(BookedRoom booking) {
         Room theRoom = roomService.getRoomById(booking.getRoom().getId()).get();
-       RoomResponse room = new RoomResponse(
+        RoomResponse room = new RoomResponse(
                 theRoom.getId(),
                 theRoom.getRoomType(),
                 theRoom.getRoomPrice());
-
         return new BookingResponse(
                 booking.getBookingId(), booking.getCheck_In_Date(),
                 booking.getCheck_Out_Date(),booking.getGuestFullname(),

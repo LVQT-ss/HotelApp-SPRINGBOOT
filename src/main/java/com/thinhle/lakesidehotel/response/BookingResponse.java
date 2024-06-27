@@ -43,9 +43,9 @@ public class BookingResponse {
         this.check_In_Date = check_In_Date;
         this.check_Out_Date = check_Out_Date;
         this.bookingConfirmationCode = bookingConfirmationCode;
+        this.guestFullname = guestEmail;
+        this.totalNumberOfGuest = totalNumberOfGuest;
     }
 
-    public void setBookingConfirmationCode(String bookingConfirmationCode) {
-        this.bookingConfirmationCode = bookingConfirmationCode;
-    }
+
 }

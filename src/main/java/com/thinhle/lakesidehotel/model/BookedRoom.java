@@ -32,17 +32,18 @@ public class BookedRoom {
     private String guestEmail;
 
     @Column(name = "adults")
-    private int NumOfAdults;
+    private int numOfAdults;
 
     @Column(name = "children")
-    private int NumOfChildren;
+    private int numOfChildren;
 
     @Column(name = "total_guest")
     private int totalNumberOfGuest;
 
-    @Setter
+
     @Column(name = "confirmation_Code")
     private String bookingConfirmationCode;
+
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,22 +51,16 @@ public class BookedRoom {
     private Room room;
 
     public void calculateTotalNumberOfGuest() {
-        this.totalNumberOfGuest = this.NumOfAdults + this.NumOfChildren;
+        this.totalNumberOfGuest = this.numOfAdults + this.numOfChildren;
     }
 
-
     public void setNumOfAdults(int numOfAdults) {
-        NumOfAdults = numOfAdults;
+        this.numOfAdults = numOfAdults;
         calculateTotalNumberOfGuest();
     }
 
     public void setNumOfChildren(int numOfChildren) {
-        NumOfChildren = numOfChildren;
+        this.numOfChildren = numOfChildren;
         calculateTotalNumberOfGuest();
     }
-
-    public void setBookingConfirmationCode(String bookingConfirmationCode) {
-        this.bookingConfirmationCode = bookingConfirmationCode;
-    }
-
 }

@@ -1,5 +1,6 @@
 package com.thinhle.lakesidehotel.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class Room {
 
     @Lob
     private Blob photo;
+
 
     @OneToMany(mappedBy = "room" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BookedRoom> bookings;
