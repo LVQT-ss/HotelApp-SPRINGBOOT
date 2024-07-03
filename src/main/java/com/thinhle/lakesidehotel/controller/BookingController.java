@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,10 +28,10 @@ public class BookingController {
     private final IRoomService roomService;
 
     @GetMapping("/all-bookings")
-    public ResponseEntity<List<BookingResponse>> getAllBookings() {
+    public ResponseEntity<List<BookingResponse>> getAllBookings(){
         List<BookedRoom> bookings = bookingService.getAllBookings();
         List<BookingResponse> bookingResponses = new ArrayList<>();
-        for (BookedRoom booking : bookings) {
+        for (BookedRoom booking : bookings){
             BookingResponse bookingResponse = getBookingResponse(booking);
             bookingResponses.add(bookingResponse);
         }
@@ -63,8 +64,10 @@ public class BookingController {
 
     @DeleteMapping("/booking/{bookingId}/delete")
     public void cancelBooking(@PathVariable  Long bookingId){
+
         bookingService.cancelBooking(bookingId);
     }
+
 
     private BookingResponse getBookingResponse(BookedRoom booking) {
         Room theRoom = roomService.getRoomById(booking.getRoom().getId()).get();
@@ -73,8 +76,8 @@ public class BookingController {
                 theRoom.getRoomType(),
                 theRoom.getRoomPrice());
         return new BookingResponse(
-                booking.getBookingId(), booking.getCheck_In_Date(),
-                booking.getCheck_Out_Date(),booking.getGuestFullname(),
+                booking.getBookingId(), booking.getCheckInDate(),
+                booking.getCheckOutDate(),booking.getGuestFullName(),
                 booking.getGuestEmail(), booking.getNumOfAdults(),
                 booking.getNumOfChildren(), booking.getTotalNumberOfGuest(),
                 booking.getBookingConfirmationCode(), room);

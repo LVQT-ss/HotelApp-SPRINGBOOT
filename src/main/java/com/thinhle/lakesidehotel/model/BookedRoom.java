@@ -20,13 +20,13 @@ public class BookedRoom {
     private Long bookingId;
 
     @Column(name = "check_in")
-    private LocalDate check_In_Date;
+    private LocalDate checkInDate;
 
     @Column(name = "check_out")
-    private LocalDate check_Out_Date;
+    private LocalDate checkOutDate;
 
     @Column(name = "guest_FullName")
-    private String guestFullname;
+    private String guestFullName;
 
     @Column(name = "guest_Email")
     private String guestEmail;
