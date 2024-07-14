@@ -39,7 +39,6 @@ public class BookingController {
     }
 
 
-
     @GetMapping("/confirmation/{confirmationCode}")
     public ResponseEntity<?> getBookingConfirmationCode(@PathVariable  String confirmationCode) {
             try {
@@ -52,16 +51,15 @@ public class BookingController {
     }
 
     @PostMapping("/room/{roomId}/booking")
-    public ResponseEntity<?> saveBooking(@PathVariable  Long roomId,
-                                         @RequestBody BookedRoom bookingRequest){
-        try{
-            String confirmationCode = bookingService.saveBooking(roomId,bookingRequest);
-            return ResponseEntity.ok("Room booked sucessefully, Your confirmation code is: "+ confirmationCode);
-        } catch(InvalidBookingResquestException e){
-                    return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<?> saveBooking(@PathVariable Long roomId,
+                                         @RequestBody BookedRoom bookingRequest) {
+        try {
+            String confirmationCode = bookingService.saveBooking(roomId, bookingRequest);
+            return ResponseEntity.ok("Room booked sucessefully, Your confirmation code is: " + confirmationCode);
+        } catch (InvalidBookingResquestException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
     @DeleteMapping("/booking/{bookingId}/delete")
     public void cancelBooking(@PathVariable  Long bookingId){
 

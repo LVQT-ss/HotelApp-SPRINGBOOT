@@ -38,23 +38,28 @@ public class BookingService implements IBookingService {
         bookingRepository.deleteById(bookingId);
     }
 
+
+
     @Override
     public String saveBooking(Long roomId, BookedRoom bookingRequest) {
-        if(bookingRequest.getCheckOutDate().isBefore(bookingRequest.getCheckInDate())) {
-            throw new InvalidBookingResquestException("Check-in date must come before check out date");
+        if (bookingRequest.getCheckOutDate().isBefore(bookingRequest.getCheckInDate())){
+            throw new InvalidBookingResquestException("Check-in date must come before check-out date");
         }
         Room room = roomService.getRoomById(roomId).get();
         List<BookedRoom> existingBookings = room.getBookings();
         boolean roomIsAvailable = roomIsAvailable(bookingRequest,existingBookings);
-        if(roomIsAvailable) {
+        if (roomIsAvailable){
             room.addBooking(bookingRequest);
             bookingRepository.save(bookingRequest);
-        }else {
-                throw new InvalidBookingResquestException("sorry, This room is not available for the selected dates");
+        }else{
+            throw  new InvalidBookingResquestException("Sorry, This room is not available for the selected dates;");
         }
-
         return bookingRequest.getBookingConfirmationCode();
     }
+
+
+
+
 
     private boolean roomIsAvailable(BookedRoom bookingRequest, List<BookedRoom> existingBookings) {
         return existingBookings.stream()
