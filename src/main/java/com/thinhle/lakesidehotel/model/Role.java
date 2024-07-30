@@ -42,7 +42,7 @@ public class Role {
             roleUsers.forEach(this::removeUserFromRole);
         }
     }
-    
+
     public  String getName(){
         return name != null? name : "";
     }
