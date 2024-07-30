@@ -1,13 +1,14 @@
 package com.thinhle.lakesidehotel.service;
 
 import com.thinhle.lakesidehotel.model.User;
+import com.thinhle.lakesidehotel.repository.UserRepository;
 
 import java.util.List;
 
 public class UserService implements IUserService {
 
     private UserRepository userRepository;
-    
+
     @Override
     public User registerUser(User user) {
         return null;
