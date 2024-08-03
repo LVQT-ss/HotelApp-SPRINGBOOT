@@ -1,11 +1,14 @@
 package com.thinhle.lakesidehotel.service;
 
+import com.thinhle.lakesidehotel.exception.UserAlreadyExistsException;
+import com.thinhle.lakesidehotel.model.Role;
 import com.thinhle.lakesidehotel.model.User;
 import com.thinhle.lakesidehotel.repository.RoleRepository;
 import com.thinhle.lakesidehotel.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
