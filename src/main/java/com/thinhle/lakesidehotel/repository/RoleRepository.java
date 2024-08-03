@@ -8,7 +8,6 @@ import java.util.Optional;
 
 public interface RoleRepository extends JpaRepository<Room, Long> {
 
-    @Override
     Optional<Role> findByName(String role);
 
 
