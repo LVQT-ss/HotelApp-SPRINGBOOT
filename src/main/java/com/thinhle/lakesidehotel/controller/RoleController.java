@@ -2,6 +2,7 @@ package com.thinhle.lakesidehotel.controller;
 
 import com.thinhle.lakesidehotel.exception.RoleAlreadyExistException;
 import com.thinhle.lakesidehotel.model.Role;
+import com.thinhle.lakesidehotel.model.User;
 import com.thinhle.lakesidehotel.service.IRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,23 @@ public class RoleController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(re.getMessage());
 
         }
+    }
+    @DeleteMapping("/delete/{roleId")
+    public void deleteRole(@PathVariable("roleId") Long roleId){
+        roleService.deleteRole(roleId);
+    }
+
+    @PostMapping("/remove-user-from-role")
+    public User removeUserFromRole(
+            @RequestParam("userId") Long userId,
+            @RequestParam("roleId") Long roleId){
+        return roleService.removeUserFromRole(userId, roleId);
+    }
+    @PostMapping("/assign-user-to-role")
+    public User assignUserToRole(
+            @RequestParam("userId") Long userId,
+            @RequestParam("roleId") Long roleId){
+        return roleService.assignRoleToUser(userId, roleId);
     }
 }
 
