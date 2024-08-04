@@ -1,5 +1,6 @@
 package com.thinhle.lakesidehotel.service;
 
+import com.thinhle.lakesidehotel.exception.RoleAlreadyExistException;
 import com.thinhle.lakesidehotel.model.Role;
 import com.thinhle.lakesidehotel.model.User;
 import com.thinhle.lakesidehotel.repository.RoleRepository;
@@ -17,17 +18,23 @@ public class RoleService implements IRoleService {
     private final UserRepository userRepository;
     @Override
     public List<Role> getRoles() {
-        return List.of();
+        return roleRepository.findAll();
     }
 
     @Override
     public Role createRole(Role theRole) {
-        return null;
+        String roleName = "ROLE_"+theRole.getName().toUpperCase();
+        Role role = new Role(roleName);
+        if (roleRepository.existsByName(roleName)){
+            throw new RoleAlreadyExistException(theRole.getName()+" role already exists");
+        }
+        return roleRepository.save(role);
     }
 
     @Override
-    public void deleteRole(Long id) {
-
+    public void deleteRole(Long roleId) {
+        this.removeAllUsersFromRole(roleId);
+        roleRepository.deleteById(roleId );
     }
 
     @Override
