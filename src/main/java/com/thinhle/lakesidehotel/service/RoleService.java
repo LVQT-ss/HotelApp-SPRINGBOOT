@@ -1,6 +1,8 @@
 package com.thinhle.lakesidehotel.service;
 
 import com.thinhle.lakesidehotel.exception.RoleAlreadyExistException;
+import com.thinhle.lakesidehotel.exception.UserAlreadyExistsException;
+import com.thinhle.lakesidehotel.exception.UsernameNotFoundException;
 import com.thinhle.lakesidehotel.model.Role;
 import com.thinhle.lakesidehotel.model.User;
 import com.thinhle.lakesidehotel.repository.RoleRepository;
