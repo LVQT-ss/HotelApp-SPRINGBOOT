@@ -16,11 +16,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Role {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
 
     @JsonIgnore
@@ -48,11 +46,7 @@ public class Role {
             roleUsers.forEach(this :: removeUserFromRole);
         }
     }
-
     public  String getName(){
         return name != null? name : "";
     }
-
-
-
 }
