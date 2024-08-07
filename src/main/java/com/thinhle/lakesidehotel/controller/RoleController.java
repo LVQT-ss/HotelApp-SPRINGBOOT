@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.springframework.http.HttpStatus.FOUND;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/roles")
 @RequiredArgsConstructor
