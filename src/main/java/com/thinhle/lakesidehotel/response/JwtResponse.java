@@ -1,5 +1,6 @@
 package com.thinhle.lakesidehotel.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,11 +22,5 @@ public class JwtResponse {
         this.roles = roles;
     }
 
-    public JwtResponse(Long id, String email, String token, String type, List<String> roles) {
-        this.id = id;
-        this.email = email;
-        this.token = token;
-        this.type = type != null ? type : "Bearer";
-        this.roles = roles;
-    }
+
 }
