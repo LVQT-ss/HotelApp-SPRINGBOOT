@@ -4,6 +4,7 @@ package com.thinhle.lakesidehotel.controller;
 import com.thinhle.lakesidehotel.model.User;
 import com.thinhle.lakesidehotel.service.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,11 +13,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
+    @Autowired
     private final IUserService userService;
 
     @GetMapping("/all")
