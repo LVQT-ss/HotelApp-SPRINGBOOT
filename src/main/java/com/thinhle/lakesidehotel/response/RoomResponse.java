@@ -37,4 +37,7 @@ public class RoomResponse {
         this.photo = photoBytes != null ? Base64.encodeBase64String(photoBytes) : null;
 //        this.bookings = bookings;
     }
+
+    public RoomResponse(Long id, String roomType, BigDecimal roomPrice, boolean booked, byte[] photoBytes, List<BookingResponse> bookingInfo) {
+    }
 }
